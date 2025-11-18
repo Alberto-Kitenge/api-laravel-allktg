@@ -12,5 +12,9 @@ class Post extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['title', 'description'];
+    protected $fillable = [
+        'title',
+        'description',
+        'user_id'
+    ];
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\EditPostRequest;
 use App\Models\Post;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -67,7 +68,13 @@ class PostController extends Controller
     public function store(CreatePostRequest $request)
     {
         try {
-            $post = Post::create($request->validated());
+            $validatedData = $request->validated();
+
+            $post = Post::create([
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'],
+                'user_id' => Auth::id()
+            ]);
 
             return response()->json([
                 'status_code' => 200,

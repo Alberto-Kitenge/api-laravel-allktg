@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Route;
 // Récupérer la liste des posts
 Route::get('posts', [PostController::class, 'index']);
 
-// Ajouter u post
-Route::post('posts/create', [PostController::class, 'store']);
-
 // Modifier un post
 Route::put('posts/edit/{post}', [PostController::class, 'update']);
 
@@ -26,6 +23,12 @@ Route::post('register', [UserController::class, 'register']);
 // Se connecter
 Route::post('login', [UserController::class, 'login']);
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    // Retourner l'utilisateur actuellement connecté
+    Route::get('user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Créer un post
+    Route::post('posts/create', [PostController::class, 'store']);
 });
