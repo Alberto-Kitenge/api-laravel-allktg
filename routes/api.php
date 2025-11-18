@@ -11,14 +11,11 @@ use Illuminate\Support\Facades\Route;
 // Récupérer la liste des posts
 Route::get('posts', [PostController::class, 'index']);
 
-// Supprimer un post
-Route::delete('posts/delete/{post}', [PostController::class, 'destroy']);
-
 // Inscrire un nouvel utilisateur
-Route::post('register', [UserController::class, 'register']);
+Route::post('register', [UserController::class, 'register'])->middleware('guest:sanctum');
 
 // Se connecter
-Route::post('login', [UserController::class, 'login']);
+Route::post('login', [UserController::class, 'login'])->middleware('guest:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
     // Retourner l'utilisateur actuellement connecté
@@ -31,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Editer un post
     Route::put('posts/edit/{post}', [PostController::class, 'update']);
+
+    // Supprimer un post
+    Route::delete('posts/delete/{post}', [PostController::class, 'destroy']);
 });

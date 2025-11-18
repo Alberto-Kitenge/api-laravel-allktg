@@ -127,13 +127,21 @@ class PostController extends Controller
             $post = Post::find($id);
 
             if ($post) {
-                $post->delete();
 
-                return response()->json([
-                    'status_code' => 200,
-                    'status_message' => "Post supprimé avec succès",
-                    'data' => $post
-                ], 200);
+                if ($post->user_id === Auth::id()) {
+                    $post->delete();
+
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => "Post supprimé avec succès",
+                        'data' => $post
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status_code' => 403,
+                        'status_message' => "Vous n'avez pas accès à ce post"
+                    ], 403);
+                }
             } else {
                 return response()->json([
                     'status_code' => 404,
