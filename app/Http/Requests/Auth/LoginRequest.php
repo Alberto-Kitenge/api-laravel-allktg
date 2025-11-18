@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @method array only(string[] $keys)
+ * @method boolean boolean(string[] $keys)
+ * @method string input(string $key)
+ * @method string ip()
+ */
 class LoginRequest extends FormRequest
 {
     /**
@@ -80,6 +86,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }

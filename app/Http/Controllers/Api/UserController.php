@@ -35,14 +35,19 @@ class UserController extends Controller
     public function login(LoginUserRequest $request)
     {
         try {
-            if (!Auth::attempt($request->only('email', 'password'))) {
+            $validatedData = $request->validated();
+
+            if (!Auth::attempt([
+                'email' => $validatedData['email'],
+                'password' => $validatedData['password']
+            ])) {
                 return response()->json([
                     'status_code' => 401,
                     'status_message' => "Mot de passe incorrect",
                 ], 401);
             }
 
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $validatedData['email'])->first();
 
             if (!$user) {
                 return response()->json([
