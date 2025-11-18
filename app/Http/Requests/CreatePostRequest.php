@@ -25,8 +25,8 @@ class CreatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:50|unique:posts,title',
-            'description' => 'string|max:150',
+            'title' => ['required', 'string', 'max:50', 'unique:posts,title'],
+            'description' => ['string', 'max:150'],
         ];
     }
 

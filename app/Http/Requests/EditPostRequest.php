@@ -5,7 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
+use App\Models\Post;
 
+/**
+ * @property Post $post
+ */
 class EditPostRequest extends FormRequest
 {
     /**
@@ -24,8 +29,8 @@ class EditPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:50|unique:posts,title',
-            'description' => 'string|max:150',
+            'title' => ['required', 'string', 'max:50', Rule::unique('posts')->ignore($this->post)],
+            'description' => ['string', 'max:150'],
         ];
     }
 

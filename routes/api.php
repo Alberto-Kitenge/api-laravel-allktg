@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Route;
 // Récupérer la liste des posts
 Route::get('posts', [PostController::class, 'index']);
 
-// Modifier un post
-Route::put('posts/edit/{post}', [PostController::class, 'update']);
-
 // Supprimer un post
 Route::delete('posts/delete/{post}', [PostController::class, 'destroy']);
 
@@ -31,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Créer un post
     Route::post('posts/create', [PostController::class, 'store']);
+
+    // Editer un post
+    Route::put('posts/edit/{post}', [PostController::class, 'update']);
 });

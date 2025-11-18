@@ -94,7 +94,17 @@ class PostController extends Controller
     public function update(EditPostRequest $request, Post $post)
     {
         try {
-            $post->update($request->validated());
+            $validatedData = $request->validated();
+
+            if ($post->user_id === Auth::id()) {
+                $post->update($validatedData);
+            } else {
+
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => "Vous n'avez pas accès à ce post"
+                ], 403);
+            }
 
             return response()->json([
                 'status_code' => 200,
